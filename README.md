@@ -1,7 +1,8 @@
 # cse210-ww-student-template
 
-# Not created by Joseph Maisey
+# Joseph Maisey's project repository for class. 
 
+New text in the file
 This is the starter code for students in the worldwide content version of CSE 210.
 
 This repository contains the starter code for many different projects. They are arranged as follows:
