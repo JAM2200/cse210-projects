@@ -17,8 +17,8 @@ public class FileHandler
         return fileName;
     }
     
-    // List all the exsiting Journals that the user has created.
-
+    // List all the exsiting Journals that the user has created.  
+    // Not part of the core requirements.
     public void ListJournals()
     {
 
