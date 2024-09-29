@@ -14,6 +14,7 @@ public class Journal{
         "How did I accomplish my goals today?",
         "Where did I go today?"
     });
+    
 
 
     // Create a variable to store new and old entries in a list.  It is property because it will be used in multiple functions.
@@ -89,3 +90,4 @@ public class Journal{
     
     
 }
+
