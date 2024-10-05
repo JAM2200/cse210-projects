@@ -4,7 +4,7 @@ class Scripture
 	// and other variables pertinent varibles.
 	private List<Word> _words = new List<Word>();
 	private bool _allHidden = false;
-	private int _numberOfHiddenWords;
+	private int _numberOfHiddenWords = 2;
 	private int _numberOfWordsToHide = 2;
 	private Reference reference;
 
