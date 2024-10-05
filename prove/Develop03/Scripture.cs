@@ -23,6 +23,11 @@ class Scripture
 		}
 	}
 
+	// Empty constructor
+	public Scripture()
+	{
+	}
+
 	// Same as the constructor.  Gives the programmer the option to use an empty constructor if preffered.
 	public void SetVerseAndScripture(string verse, Reference scriptureReference)
 	{

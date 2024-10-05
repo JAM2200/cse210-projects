@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
+using System.Transactions;
 
 class Program
 {
+
+		// Present a list of opthions the user can take.
         static void PresentMenu()
         {
                 Console.WriteLine("1. Memorize");
@@ -11,46 +15,81 @@ class Program
                 Console.Write("Enter an option: ");
         }
 
-        // Reference reference;
 
-
+	// Main function, program starts here.
     static void Main(string[] args)
     {
+				// Create a variable to handle new and existing file.
                 FileHandler file = new FileHandler();
+
+				// create a variable to marke whether the program should end.
+
                 bool memorizing = true;
 
+				// Keep letting the user choose what to do until their finished.
                 while(memorizing)
                 {
-                        PresentMenu();
+						// Present the menu.
+					PresentMenu();
 
-                        string choice = Console.ReadLine();
+					// Get a choice from the user.
+					string choice = Console.ReadLine();
 
+					// Decide what to do depending on the choice.
+					switch(choice)
+					{
+							
+						case "1":
+								// Display the verses the user has entered and let them choose which one to memorize.
 
-                        switch(choice)
-                        {
-                                case "1":
-                                        file.ListVerses();
-                                        // scripture.Memorize();
-                                        break;
-                                case "2":
-                                        Console.Write("Enter a file name: ");
-                                        string fileName = Console.ReadLine();
-                                        NewVerse verse = new NewVerse();
+								// Check if there are any scitptures that can be memorized and list them.								Console.WriteLine();
+								bool canMemorize = file.ListVerses();
+								if(canMemorize)
+								{
+									// Prompt the user for a scripture to memorize.
+									Console.Write("\nEnter the fileName(with or without the \".txt\"): ");	
+									string fileName = Console.ReadLine();
 
-                                        verse.CreateVerse();
+									// Create the variables to store a scripture, and create a scripture reference and scripture.
+									List<string> referenceParts = new List<string>();
+									string loadVerse = file.LoadFile(fileName, referenceParts);
+									Reference scriptureReference = new Reference(referenceParts[0],int.Parse(referenceParts[1]),int.Parse(referenceParts[2]),int.Parse(referenceParts[3]));
 
-                                        file.SaveFile(fileName,verse.GetVerseContents(),verse.GetReference());
-                                        break;
-                                case "3":
-                                        memorizing = false;
-                                        break;
-                                default:
-                                        break;
-                        }
+									Scripture scripture = new Scripture(loadVerse,scriptureReference);
+									// Memorize the scripture.
+									scripture.Memorize();
+								}else
+								{
+									// Inform the user that there aren't any verses to memorize.
+						            Console.WriteLine("No verses created yet.");
+
+								}
+								break;
+						case "2":
+								// Create a verse and store it in a file.
+
+								// Have the user enter the name of the file to save.
+								Console.Write("Enter a file name: ");
+								string loadFileName = Console.ReadLine();
+								// Create a new verse. Get the book, chapter, verse, endverse and verse.
+								NewVerse verse = new NewVerse();
+								verse.CreateVerse();
+								
+								// Save the verse to a file.
+								file.SaveFile(loadFileName,verse.GetVerseContents(),verse.GetReference());
+								break;
+						case "3":
+
+								// Quit the program.
+								memorizing = false;
+								break;
+						default:
+							// In case one of the options is not entered.
+							break;
+					}
                 }
 
-        // string scriptures = @"Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.";
-        // Scripture scripture = new Scripture(scriptures,reference);
+
             
     }
 }

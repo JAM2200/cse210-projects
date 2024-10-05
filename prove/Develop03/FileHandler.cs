@@ -5,17 +5,21 @@ public class FileHandler
 
     private string _savePath= ".\\verses\\";
 
+    // Set the save path based on the operatinting system. On Windows use backslashes.  On unix and other systems, use forward slashes. 
     private void SetSavePath()
     {
-
+        // Figure out what operating system the user is using.
         switch(Environment.OSVersion.Platform){
             case PlatformID.Win32NT:
+                // Use a Windows path.
                 _savePath= ".\\verses\\";
                 break;
             case PlatformID.Unix:
+                // Use a unix path.
                 _savePath= "./verses/";
                 break;
             default:
+                // Use a unix path.
                 _savePath= "./verses/";
                 break;
                 
@@ -38,15 +42,17 @@ public class FileHandler
     
     // List all the exsiting verses that the user has created.  
     // Not part of the core requirements.
-    public void ListVerses()
+    public bool ListVerses()
     {
-
+        
+        // Check to see if there are any saved files.
         if(!Directory.Exists(_savePath))
-        {
-            Console.WriteLine("No verses created yet.");
+        {   
+            // if not exit with a false.
+            return false;
         }else
         {     
-
+            // if it does exsist, get all the file names and display them on the console.
             string[] files = Directory.GetFiles(_savePath);
             
             Console.WriteLine("Your verses: ");
@@ -58,6 +64,8 @@ public class FileHandler
                 }
             }
         }
+        // Tell the program that ther are files through a boolean.
+        return true;
     }
 
 
@@ -65,9 +73,10 @@ public class FileHandler
     public void SaveFile(string fileName,string verse, Reference scriptureReference)
     {
 
+        // Set the save path to a Windows path or linux/unix path.
         SetSavePath();
 
-        Console.WriteLine(_savePath);
+        // Console.WriteLine(_savePath);
         // Check if the file name is a ".txt" file.
 
         // Save a file in the .\verses\ directory
@@ -82,7 +91,7 @@ public class FileHandler
         // // Create a new file writer class to write to the new file.
         using(StreamWriter storeVerseFile = new StreamWriter(fileName))
         {
-        //     // Add each part of the reference to the file, and the verse.
+        // Add each part of the reference to the file, and the verse.
             
                     storeVerseFile.WriteLine(scriptureReference.GetBook());
                     storeVerseFile.WriteLine(scriptureReference.GetChapter());
@@ -94,22 +103,20 @@ public class FileHandler
     }
 
     // Load a file in to a list.
-    public void LoadFile(string fileName, List<string> fileContents)
+    public string LoadFile(string fileName, List<string> referenceParts)
     {
         // Check to make sure the file is a ".txt" file.
         fileName = _savePath + CheckNameForTxt(fileName);
         // Create a file reader class to access the file.
         string[] fileLines = System.IO.File.ReadAllLines(fileName);
 
-        // Go through each line in the file. 
-        for(int line = 0;line < fileLines.Count();line++)
+        // Go through each line in the file. Except the last one.
+        for(int i = 0;i < fileLines.Count() - 1;i++ )
         {
-            fileContents.Add(fileLines[line]);                
+            referenceParts.Add(fileLines[i]);
         }
 
-      
-        
-        
+        return fileLines[fileLines.Count() - 1];        
     }
     
 
