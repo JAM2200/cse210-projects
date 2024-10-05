@@ -3,6 +3,14 @@ using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 using System.Transactions;
 
+
+// This lets the usere memorize a scripture of their choice.  They can enter the scripture and the program will save it to a file so 
+// that the users does not have to enter it every time they want to work on memorizing.  They can enter multiple scriptures and 
+// choose which one to work on.
+// While the user is memorizing, they can hit enter and two of the words will disappear from the screen.
+// They can keep doing that untill the entire scripture is hidden at which point they are presented with the same options
+// they had when the program was started.
+// The program keeps going until the users quits.  
 class Program
 {
 
