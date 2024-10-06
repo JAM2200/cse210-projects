@@ -151,5 +151,15 @@ class Scripture
 			UpdateHiddenWords();
 		}
 
+		// Reset the variables so that the scripture can be used again.
+		_allHidden = false;
+		_numberOfHiddenWords = 0;
+		
+		// Set each word in the scripture to be shown instead of hidden.
+		foreach(Word word in _words)
+		{
+			word.Show();
+		}
+
 	}
 }

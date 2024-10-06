@@ -4,13 +4,15 @@ using System.Text.Json.Serialization;
 using System.Transactions;
 
 
-// This lets the usere memorize a scripture of their choice.  They can enter the scripture and the program will save it to a file so 
+// This program lets the usere memorize a scripture of their choice.  They can enter the scripture and the program will save it to a file so 
 // that the users does not have to enter it every time they want to work on memorizing.  They can enter multiple scriptures and 
 // choose which one to work on.
 // While the user is memorizing, they can hit enter and two of the words will disappear from the screen.
 // They can keep doing that untill the entire scripture is hidden at which point they are presented with the same options
 // they had when the program was started.
-// The program keeps going until the users quits.  
+// The program keeps going until the users quits.
+
+// The menu and saving the verse were to go beyond the core requirments.
 class Program
 {
 
@@ -30,15 +32,22 @@ class Program
 				// Create a variable to handle new and existing file.
                 FileHandler file = new FileHandler();
 
+				string defaultVerse = @"Trust in the Lord with all thine heart; and lean not unto thine own understanding.
+6 In all thy ways acknowledge him, and he shall direct thy paths.";
+				Reference proverbsRef = new Reference("Proverbs",3,5,6);
+				Scripture proverbs = new Scripture(defaultVerse, proverbsRef);
+
 				// create a variable to marke whether the program should end.
 
                 bool memorizing = true;
+				
 
 				// Keep letting the user choose what to do until their finished.
                 while(memorizing)
                 {
 						// Present the menu.
 					PresentMenu();
+				
 
 					// Get a choice from the user.
 					string choice = Console.ReadLine();
@@ -50,26 +59,43 @@ class Program
 						case "1":
 								// Display the verses the user has entered and let them choose which one to memorize.
 
-								// Check if there are any scitptures that can be memorized and list them.								Console.WriteLine();
+								// Check if there are any scitptures that can be memorized and list them.								
 								bool canMemorize = file.ListVerses();
+								Console.WriteLine("Default");
+
+								// Make sure there are verse that can be accesed by the program.
 								if(canMemorize)
 								{
 									// Prompt the user for a scripture to memorize.
-									Console.Write("\nEnter the fileName(with or without the \".txt\"): ");	
+									Console.Write("\nEnter the fileName(with or without the \".txt\") or default to practice the default verse: ");	
 									string fileName = Console.ReadLine();
+									
+										// Create the variables to store a scripture, and create a scripture reference and scripture.
+										List<string> referenceParts = new List<string>();
+										file.LoadFile(fileName, referenceParts);
 
-									// Create the variables to store a scripture, and create a scripture reference and scripture.
-									List<string> referenceParts = new List<string>();
-									string loadVerse = file.LoadFile(fileName, referenceParts);
-									Reference scriptureReference = new Reference(referenceParts[0],int.Parse(referenceParts[1]),int.Parse(referenceParts[2]),int.Parse(referenceParts[3]));
+										// If the list is empty that means the file does not exist.
+										if(referenceParts.Count != 0)
+										{
+											Reference scriptureReference = new Reference(referenceParts[0],int.Parse(referenceParts[1]),int.Parse(referenceParts[2]),int.Parse(referenceParts[3]));
 
-									Scripture scripture = new Scripture(loadVerse,scriptureReference);
-									// Memorize the scripture.
-									scripture.Memorize();
+											Scripture scripture = new Scripture(referenceParts[4],scriptureReference);
+										
+											// Memorize the scripture.
+											scripture.Memorize();
+										}
+
+										// Memorize the scripture stored in the file.
+										if(fileName.ToLower() == "default")
+										{
+											proverbs.Memorize();
+										}
+
+										
 								}else
 								{
-									// Inform the user that there aren't any verses to memorize.
-						            Console.WriteLine("No verses created yet.");
+									// If there aren't any scriptures entered by the user. Memorize the scripture stored in the program.
+						            proverbs.Memorize();
 
 								}
 								break;

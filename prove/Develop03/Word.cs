@@ -52,4 +52,10 @@ class Word
 			_underscores = _underscores + "_";		
 		}
 	}
+
+	// Make it so that the word can be shown instead after it has been hidden.
+	public void Show()
+	{
+		_isHidden = false;
+	}
 }
