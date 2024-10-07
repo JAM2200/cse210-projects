@@ -78,7 +78,6 @@ public class FileHandler
     public void SaveFile(string fileName,string verse, Reference scriptureReference)
     {
 
-       
 
         // Console.WriteLine(_savePath);
         // Check if the file name is a ".txt" file.
