@@ -5,6 +5,11 @@ public class FileHandler
 
     private string _savePath= ".\\verses\\";
 
+
+    public FileHandler()
+    {
+        SetSavePath();
+    }
     // Set the save path based on the operatinting system. On Windows use backslashes.  On unix and other systems, use forward slashes. 
     private void SetSavePath()
     {
@@ -73,8 +78,7 @@ public class FileHandler
     public void SaveFile(string fileName,string verse, Reference scriptureReference)
     {
 
-        // Set the save path to a Windows path or linux/unix path.
-        SetSavePath();
+       
 
         // Console.WriteLine(_savePath);
         // Check if the file name is a ".txt" file.
@@ -103,20 +107,28 @@ public class FileHandler
     }
 
     // Load a file in to a list.
-    public string LoadFile(string fileName, List<string> referenceParts)
+    public void LoadFile(string fileName, List<string> referenceParts)
     {
         // Check to make sure the file is a ".txt" file.
         fileName = _savePath + CheckNameForTxt(fileName);
         // Create a file reader class to access the file.
-        string[] fileLines = System.IO.File.ReadAllLines(fileName);
 
-        // Go through each line in the file. Except the last one.
-        for(int i = 0;i < fileLines.Count() - 1;i++ )
+        if(System.IO.File.Exists(fileName))
         {
-            referenceParts.Add(fileLines[i]);
+            string[] fileLines = System.IO.File.ReadAllLines(fileName);
+        
+        
+            // Go through each line in the file.
+            for(int i = 0;i < fileLines.Count();i++ )
+            {
+                referenceParts.Add(fileLines[i]);
+            }
+
+        }else
+        {
+            Console.WriteLine($"File: {fileName}, not found!");
         }
 
-        return fileLines[fileLines.Count() - 1];        
     }
     
 
