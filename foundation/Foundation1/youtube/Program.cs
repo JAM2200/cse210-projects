@@ -3,7 +3,7 @@
 
 	static void Main()
 	{
-		
+		// Create a list of videos and add several videos. 
 		List<Video> videos = new List<Video>();
 		Video vid1 = new Video("This Truck is Going To Destroy the Road","Drv4Fun",12.5f);
 		vid1.NewComment("@TrkLvr2303","I can't believe that made a truck that drive sideways while facing forward. Its Ridculous!!!");	
@@ -32,6 +32,8 @@
 		
 		videos.Add(vid4);
 
+
+		// Display the information of each video, such as the author, the title, the number of comments, and the length of the video.
 		for(int i = 0;i < videos.Count();i++)
 		{
 			videos[i].DisplayInfo();
