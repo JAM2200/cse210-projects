@@ -26,7 +26,7 @@ class Video
 	}
 
 	// Return the number of comments.
-	public int GetNumberOfComments()
+	private int GetNumberOfComments()
 	{
 		return _comments.Count();
 	}
