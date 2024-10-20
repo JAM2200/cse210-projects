@@ -1,7 +1,7 @@
 class ListingActivity : Activity
 {
 	// New comment
-	
+
 	/*
 	 * Declare an initialize variables for a list of prompts, responses, activitgy descriptoins, and the type.
 	 */ 
@@ -12,7 +12,6 @@ class ListingActivity : Activity
     "When have you felt the Holy Ghost this month?",
     "Who are some of your personal heroes?"
     });
-
 	private List<string> _responses = new List<string>();
 	private string _description = "In this activity you will list actions you did to work on something.";
 	private string _activityType = "listing";
@@ -33,7 +32,11 @@ class ListingActivity : Activity
 		// Get the next random number from a range of 0 - the number of prompts
 		// and use that as an index.
 		int randomIndex = randomNumber.Next(0,_prompts.Count());
+
+		
+		// Return the random question.
 		return _prompts[randomIndex];
+		
 	}
 		
 

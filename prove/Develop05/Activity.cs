@@ -152,7 +152,7 @@ class Activity
 			// Wait a second.
 			Thread.Sleep(1000);		
 			// Check to see if the timer is ended, otherwise the counter will add time to the activity.
-			if((EndTimer() && isRunning) )
+			if(EndTimer() && isRunning )
 			{
 				Console.Write($"\b0");
 				break;

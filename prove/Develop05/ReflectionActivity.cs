@@ -11,7 +11,7 @@ class ReflectionActivity : Activity
 	private void PopulatePrompts()
 	{
 		_prompts.Add("Think of a time when you did something really difficult.");
-		_prompts.Add("Think of a time when you did something really run.");
+		_prompts.Add("Think of a time when you did something really fun.");
 		_prompts.Add("Think of a time when you were with your friends.");
 		_prompts.Add("Think of a time when you were with your family.");
 		_prompts.Add("Think of of your proudest accomplisment.");
@@ -48,28 +48,37 @@ class ReflectionActivity : Activity
 		int index = randomIndex.Next(0,_questions.Count());
 
 		// Save the index to a new variable to check to avoid repeat questions.
-		// Currently not working. 	
-		int newIndex = index;
+		// This is to excced core requirements.
 		
+		int newIndex = index;
+		Console.WriteLine();
+
+		// Check to if every question has been asked.  If so start over.
+		if(_randomQuestionIndexes.Count() > _questions.Count())
+		{
+			_randomQuestionIndexes.Clear();
+		}
+
+		// Go through every question and check if it has been used. 
 		for(int i = 0;i < _randomQuestionIndexes.Count();i++)
 		{
-			bool done = false;
-				if(newIndex == _randomQuestionIndexes[i])
+			// Debug message.
+			//Console.WriteLine($"i = {_randomQuestionIndexes[i]} newIndex = {newIndex}");
+			// if the new question has been asked go to a different question.
+			if(newIndex == _randomQuestionIndexes[i])
+			{
+				// Add one to the index for the random question.
+				newIndex++;
+				// If the new index is greater than last index of the list of questions, go to the first one.
+				if(newIndex == _questions.Count())
 				{
-					
-					newIndex++;
-					if(newIndex == _randomQuestionIndexes.Count())
-					{
-						newIndex = 0;
-					}
-				}else
-				{
-					done = true;
-					//break;
-				}	
+					newIndex = 0;
+				}
+			}
+
 		}
 		
-		// Add the index to the list and return the random question.
+		// Add the new index to the list of used indexes and return the random question.
 		_randomQuestionIndexes.Add(newIndex);
 		return _questions[newIndex];
 	}
