@@ -1,5 +1,7 @@
 class ListingActivity : Activity
 {
+	// New comment
+	
 	/*
 	 * Declare an initialize variables for a list of prompts, responses, activitgy descriptoins, and the type.
 	 */ 
