@@ -4,4 +4,9 @@ class ChecklistGoal : Goal
 	{	
 		SetType("checklist");
 	}
+
+	public ChecklistGoal()
+	{	
+		SetType("checklist");
+	}
 }

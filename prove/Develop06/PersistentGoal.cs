@@ -4,4 +4,9 @@ class EternalGoal : Goal
 	{
 		SetType("eternal");
 	}
+
+	public EternalGoal()
+	{
+		SetType("eternal");
+	}
 }

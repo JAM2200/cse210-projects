@@ -1,15 +1,20 @@
-class Goal
+public class Goal
 {
 	private string _goal = "";
 	private string _description = ""; 
 	private int _points = 0;
 	private bool _complete;
 	private string _type = "";
+	private string _detailString = ""; 
 
 	public Goal(string goal,string description)
 	{
 		_goal = goal;
 		_description = description;
+	}
+
+	public Goal()
+	{
 	}
 
 	public string GetType()
@@ -64,7 +69,14 @@ class Goal
 
 	public virtual string GetDetailString()
 	{
-		return "";
+        	string details = "Type: " + GetType() + "\nGoal: " + GetGoal()+"\nDescription: "+ GetDescription() + "\nCompleted: " + IsComplete() + "\nPoint: " + GetPoints();
+		return details; 
+	}
+
+
+	public int GetPoints()
+	{
+		return _points;
 	}
 	
 	public virtual bool IsComplete()
@@ -77,5 +89,9 @@ class Goal
 		_complete = true;
 	}
 
+	public void AddDetail(string newDetail)
+	{
+		_detailString = _detailString + newDetail;
+	}
 }
 

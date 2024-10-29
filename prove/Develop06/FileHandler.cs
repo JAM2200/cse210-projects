@@ -6,12 +6,14 @@ public class FileHandler
 
     private string _savePath= ".\\Goals\\";
     private string _subDirectory = "";
+    private string[] _files;
 
 
     public FileHandler(string goalType)
     {
         _subDirectory = goalType;
         SetSavePath();
+            _files = Directory.GetFiles(_savePath);
     }
     // Set the save path based on the operatinting system. On Windows use backslashes.  On unix and other systems, use forward slashes. 
     private void SetSavePath()
@@ -24,11 +26,11 @@ public class FileHandler
                 break;
             case PlatformID.Unix:
                 // Use a unix path.
-                _savePath = $"./verses/{_subDirectory}/";
+                _savePath = $"./Goals/{_subDirectory}/";
                 break;
             default:
                 // Use a unix path.
-                _savePath= $"./verses/{_subDirectory}/";
+                _savePath= $"./Goals/{_subDirectory}/";
                 break;
         }
         
@@ -60,15 +62,25 @@ public class FileHandler
         }else
         {     
             // if it does exsist, get all the file names and display them on the console.
-            string[] files = Directory.GetFiles(_savePath);
-            
-            Console.WriteLine($"Your {_subDirectory} goals: ");
-            foreach(string file in files)
+	    int goalNumber = 1;
+
+            foreach(string file in _files)
             {
                 if(file.Contains(".txt"))
                 {
-                    Console.WriteLine($"{file.Replace(_savePath, "")}");
+        		if(System.IO.File.Exists(file))
+        		{
+				Console.Write($"{goalNumber}. ");
+            			string[] fileLines = System.IO.File.ReadAllLines(file);
+	    			Console.WriteLine(fileLines[1].Replace("Goal: ","" ));
+	    			Console.WriteLine(fileLines[2].Replace("Description: ","\t" ));
+
+	        	}else
+       		 	{
+            			Console.WriteLine($"File: {file}, not found!");
+        		}
                 }
+		goalNumber++;
             }
         }
         // Tell the program that ther are files through a boolean.
@@ -96,17 +108,25 @@ public class FileHandler
         // // Create a new file writer class to write to the new file.
         using(StreamWriter storeVerseFile = new StreamWriter(fileName))
         {
-        // Add each part of the reference to the file, and the verse.
+        // Add each part of the goal to the file. 
             storeVerseFile.WriteLine(goalDetails);
         }
         
     }
 
     // Load a file in to a list.
-    public void LoadFile(string fileName, List<string> referenceParts)
+    public void LoadFile( Goal goal, int goalNumber)
     {
+	    string fileName = "Enter a number by a goal that you have.  Otherwise it won't load";
+	if(goalNumber < _files.Count())
+	{
+
+		fileName = _files[goalNumber - 1]; 
+	}
+	
+	
         // Check to make sure the file is a ".txt" file.
-        fileName = _savePath + CheckNameForTxt(fileName);
+        fileName = CheckNameForTxt(fileName);
         // Create a file reader class to access the file.
 
         if(System.IO.File.Exists(fileName))
@@ -114,11 +134,16 @@ public class FileHandler
             string[] fileLines = System.IO.File.ReadAllLines(fileName);
         
         
-            // Go through each line in the file.
-            for(int i = 0;i < fileLines.Count();i++ )
-            {
-                referenceParts.Add(fileLines[i]);
-            }
+	    goal.SetType(fileLines[0].Replace("Type: ","" ));
+	   goal.SetGoal(fileLines[1].Replace("Goal: ","" ));
+	   goal.SetDescription(fileLines[2].Replace("Description: ","" ));
+
+	   //if(_subDirectory == "checklist")
+	   //{
+		  
+		   // goal.SetType(fileLines[0]);
+	   // goal.SetGoal(fileLines[1]);
+	   // goal.SetDescription(fileLines[2]);
 
         }else
         {

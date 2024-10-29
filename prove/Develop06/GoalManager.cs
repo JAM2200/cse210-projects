@@ -80,7 +80,10 @@ class GoalManager
 			switch(choice)
 			{
 				case 1:
-					Console.Clear();
+					UpdateStatus();
+					
+			//		Console.Clear();
+
 
 					break;
 				case 2:
@@ -131,15 +134,7 @@ class GoalManager
 
 	public void ShowGoals()
 	{
-		foreach(Goal goal in _goals)
-		{
-			Console.WriteLine(goal.GetType());
-
-			if(goal.GetType().ToLower() == _goalType)
-			{
-				Console.WriteLine(goal.GetDetailString());
-			}
-		}
+		Console.WriteLine($"Your {_goalType} goals are:");
 
 		FileHandler goalFiles = new FileHandler(_goalType);
 		
@@ -148,29 +143,40 @@ class GoalManager
 
 	private void UpdateStatus()
 	{
+		ShowGoals();
+		Console.WriteLine("Select a goal: ");
+
+		int goalName = int.Parse(Console.ReadLine());			
+		LoadGoal(goalName);
 		
-		switch(_goalType.ToLower())
+		Console.WriteLine($"Goal Details: \n{_goals[_goals.Count() - 1].GetDetailString()}");
+	}
+
+	private void LoadGoal(int fileNumber)
+	{
+
+		FileHandler file = new FileHandler(_goalType);
+		Console.WriteLine($"Adding a {_goalType} goal.");
+		switch(_goalType)
 		{
 			case "simple":
-				SimpleGoal newSimpleGoal = new SimpleGoal(goalName, description);
-				_goals.Add(newSimpleGoal);
+				SimpleGoal simpleGoal = new SimpleGoal();
+				_goals.Add(simpleGoal);
+				file.LoadFile(_goals[_goals.Count()-1], fileNumber);
 				break;
 			case "eternal":
-				EternalGoal newEternalGoal = new EternalGoal(goalName, description);
-				_goals.Add(newEternalGoal);
+				EternalGoal eternalGoal= new EternalGoal();
+				_goals.Add(eternalGoal);
+				file.LoadFile(_goals[_goals.Count()-1], fileNumber);
 				break;
 			case "checklist":
-				ChecklistGoal newChecklistGoal = new ChecklistGoal(goalName, description);
-				_goals.Add(newChecklistGoal);
+				ChecklistGoal checklistGoal = new ChecklistGoal();
+				_goals.Add(checklistGoal);
+				file.LoadFile(_goals[_goals.Count()-1], fileNumber);
 				break;
 			default:
 				break;
 		}
-	}
-
-	private void LoadGoals()
-	{
-
 	}
 
 	private void SaveGoal(string fileName,string goalDetails)

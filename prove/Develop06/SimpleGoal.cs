@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 class SimpleGoal : Goal
 {
 
+	public SimpleGoal()
+	{
+	}	
+
 	public SimpleGoal(string goal, string description) : base(goal,description)
 	{
 		SetType("simple");
@@ -15,12 +19,14 @@ class SimpleGoal : Goal
 
 	public override bool IsComplete()
 	{
+		AddPoints(500);
 		return base.IsComplete();
 	}
 
     public override string GetDetailString()
     {
-        return "Goal:" + GetGoal()+" Description: "+ GetDescription();
+	string details = base.GetDetailString();
+	return details;
     }
 
 
