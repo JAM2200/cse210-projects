@@ -61,6 +61,7 @@ class EternalGoal : Goal
     }
 
 	// Override the base class GetPoints method and return the base amount of points or with the added bonus. 
+	// Bonus not part of the core requirements.
 	public override int GetPoints()
 	{
 		_times++;
